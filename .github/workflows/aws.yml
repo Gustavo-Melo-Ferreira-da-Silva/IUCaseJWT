@@ -25,6 +25,15 @@ jobs:
           echo "aws_access_key=$AWS_ACCESS_KEY_ID" >> $GITHUB_ENV
           echo "aws_secret_key=$AWS_SECRET_ACCESS_KEY" >> $GITHUB_ENV
 
+      - name: Create Terraform Config
+        run: |
+          cd infra
+          echo 'provider "aws" {' >> config.tf
+          echo '    region     = "sa-east-1"' >> config.tf
+          echo '    access_key = "${{ secrets.AWS_ACCESS_KEY }}"' >> config.tf
+          echo '    secret_key = "${{ secrets.AWS_SECRET_KEY }}"' >> config.tf
+          echo '}' >> config.tff
+      
       - name: Terraform init
         run: |
           cd infra
@@ -34,17 +43,11 @@ jobs:
         run: |
           cd infra
           terraform plan
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Terraform apply
         run: |
           cd infra
           terraform apply -auto-approve
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Configure AWS credencials
         uses: aws-actions/configure-aws-credentials@v1
