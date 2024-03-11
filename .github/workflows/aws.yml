@@ -25,8 +25,8 @@ jobs:
           echo "aws_access_key=$AWS_ACCESS_KEY_ID" >> $GITHUB_ENV
           echo "aws_secret_key=$AWS_SECRET_ACCESS_KEY" >> $GITHUB_ENV
 
-      - name: Print current directory
-        run: pwd
+      - name: List contents of current directory
+        run: ls -al
 
       - name: Navigate to Terraform directory
         run: cd infra 
