@@ -30,10 +30,14 @@ jobs:
       - name: Create Terraform Config
         run: |
           cd infra
-          echo $GITCONFIG >> config.tf
+          echo $gitconf >> config.tf
           cat config.tf
         env:
-          GITCONFIG: 'provider "aws" {region= "sa-east-1" access_key="${{ secrets.AWS_ACCESS_KEY }}" secret_key = "${{ secrets.AWS_SECRET_KEY }}"}'
+          gitconf: 'provider "aws" {region= "sa-east-1" access_key="${{ secrets.AWS_ACCESS_KEY }}" secret_key = "${{ secrets.AWS_SECRET_KEY }}"}'
+        run: |
+          cd infra
+          echo $gitconf >> config.tf
+          cat config.tf
       
       - name: Terraform init
         run: |
