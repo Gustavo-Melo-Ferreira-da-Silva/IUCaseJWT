@@ -28,8 +28,8 @@ jobs:
       - name: List contents of current directory
         run: ls -al
 
-      - name: Navigate to Terraform directory
-        run: cd infra 
+      - name: Navigate to infra directory
+        run: cd infra && ls -al
 
       - name: Print current directory
         run: pwd  
