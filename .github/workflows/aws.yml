@@ -5,7 +5,7 @@ on:
       - main
 
 env:
-  AWS_REGION: as-east-1
+  AWS_REGION: sa-east-1
   ECS_CLUSTER: app_cluster
   CONTAINER_NAME: app
   ECS_SERVICE: app_service
