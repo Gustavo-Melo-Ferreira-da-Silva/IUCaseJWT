@@ -1,0 +1,5 @@
+security:
+  jwt:
+    token:
+      secret-key: "gQ8HWI50yWn5Uk86K70RTwzVhGiI3bRwZvPEYL5zBZn4Reb9EoMsnC9gNYkL9BfR"
+
