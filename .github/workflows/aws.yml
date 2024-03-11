@@ -31,7 +31,7 @@ jobs:
         run: |
           cd infra
           echo 'provider "aws" {    region     = "sa-east-1"    access_key = "'"$AWS_ACCESS_KEY"'"    secret_key = "'"$AWS_SECRET_KEY"'"}' >> config.tf
-          cat infra/config.tf
+          cat config.tf
         env:
           AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
