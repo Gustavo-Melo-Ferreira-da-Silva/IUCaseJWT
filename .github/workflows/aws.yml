@@ -28,11 +28,7 @@ jobs:
       - name: Create Terraform Config
         run: |
           cd infra
-          echo 'provider "aws" {' >> config.tf
-          echo '    region     = "sa-east-1"' >> config.tf
-          echo '    access_key = "${{ secrets.AWS_ACCESS_KEY }}"' >> config.tf
-          echo '    secret_key = "${{ secrets.AWS_SECRET_KEY }}"' >> config.tf
-          echo '}' >> config.tff
+          echo 'provider "aws" {    region     = "sa-east-1"    access_key = "${{ secrets.AWS_ACCESS_KEY }}"    secret_key = "${{ secrets.AWS_SECRET_KEY }}"}' >> config.tff
       
       - name: Terraform init
         run: |
