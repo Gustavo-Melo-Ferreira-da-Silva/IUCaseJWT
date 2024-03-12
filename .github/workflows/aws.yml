@@ -10,6 +10,7 @@ env:
   CONTAINER_NAME: app
   ECS_SERVICE: app_service
   ECS_TD: .github/workflows/td.json
+  JAVA_VERSION: 21
 
 jobs:
   deploy:
@@ -27,13 +28,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Create Terraform Config
-        env:
-          gitconf: 'provider "aws" {region= "sa-east-1" access_key="${{ secrets.AWS_ACCESS_KEY }}" secret_key = "${{ secrets.AWS_SECRET_KEY }}"}'
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Install Maven
         run: |
-          cd infra
-          echo $gitconf >> config.tf
-          cat config.tf
+          sudo apt-get install -y maven
+
+      - name: Build and Test
+        run: |
+          cd App/IUCaseJWT
+          mvn clean package
       
       - name: Terraform init
         run: |
@@ -60,8 +68,8 @@ jobs:
           ECR_REGISTRY: "860605510018.dkr.ecr.sa-east-1.amazonaws.com"
           ECR_REPOSITORY: "app_repo"
           IMAGE_TAG: latest
-        run:
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG App/IUCaseJWT/
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
@@ -76,7 +84,7 @@ jobs:
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ steps.taks-def-1.outputs.task-definition }}
+          task-definition: ${{ steps.task-def-1.outputs.task-definition }}
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: false
