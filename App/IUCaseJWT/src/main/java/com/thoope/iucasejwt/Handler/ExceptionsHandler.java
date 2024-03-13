@@ -59,7 +59,7 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(InvalidClaimException.class)
     public ResponseEntity<Boolean> invalidClaimException(){
-        logger.error("Error generating Token. Verify input Payload");
+        logger.error("Invalid Claim");
         return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 }
