@@ -9,13 +9,22 @@ resource "aws_ecs_task_definition" "td" {
             image = "860605510018.dkr.ecr.sa-east-1.amazonaws.com/app_repo"
             cpu = 256
             memory = 512
-            essetials = true
+            essetial = true
             portMappings = [
                 {
                  containerPort = 80
                  hostPort = 80
                 }
-            ]   
+            ]
+
+            logConfiguration = {
+                logDriver = "awslogs"
+                options = {
+                    "awslogs-group"  = "/aws/ecs/iucase"
+                    "awslogs-region" = "sa-east-1"
+                    "awslogs-stream-prefix" = "iucasejwt"
+                }
+            }   
         }
     ])
     family = "app"
