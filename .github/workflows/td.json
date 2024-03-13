@@ -17,7 +17,15 @@
             "environment": [],
             "mountPoints": [],
             "volumesFrom": [],
-            "systemControls": []
+            "systemControls": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/aws/ecs/iucase",
+                    "awslogs-region": "sa-east-1",
+                    "awslogs-stream-prefix": "iucase_api"
+                }
+            }
         }
     ],
     "family": "app",

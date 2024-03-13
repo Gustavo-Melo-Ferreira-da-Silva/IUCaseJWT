@@ -26,10 +26,10 @@ public class TokenGenerationController {
     @PostMapping
     public ResponseEntity<String> generateToken(@RequestBody String jsonClaims) {
 
-        logger.trace("Start Generating Token.");
+        logger.info("Start Generating Token.");
         String token = tokenService.generateToken(jsonClaims);
 
-        logger.trace("Token Generate.");
+        logger.info("Token Generate.");
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 }
