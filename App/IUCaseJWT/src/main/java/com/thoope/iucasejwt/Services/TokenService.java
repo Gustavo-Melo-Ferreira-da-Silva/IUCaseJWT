@@ -2,22 +2,27 @@ package com.thoope.iucasejwt.Services;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thoope.iucasejwt.Exceptions.InvalidClaimException;
-import com.thoope.iucasejwt.Models.PayLoadModel;
 import com.thoope.iucasejwt.Exceptions.GenerationTokenException;
+import com.thoope.iucasejwt.Exceptions.InvalidClaimException;
 import com.thoope.iucasejwt.Exceptions.InvalidJWTException;
+import com.thoope.iucasejwt.Models.PayLoadModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import com.fasterxml.jackson.core.type.TypeReference;
 
-
-import java.util.*;
+import java.util.Base64;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class TokenService {
+
+    Logger logger = LoggerFactory.getLogger(TokenService.class);
 
     @Value("${security.jwt.token.secret-key}")
     private String secret;
@@ -64,9 +69,7 @@ public class TokenService {
             ObjectMapper objectMapper = new ObjectMapper();
             payLoadModel = objectMapper.readValue(payloadJsonString, PayLoadModel.class);
         } catch (Exception ex){
-            String location = List.of(PayLoadModel.class.getSimpleName().split("Model")).getFirst().strip();
-            String message = List.of(ex.getMessage().split("\\(")).getFirst().strip();
-            throw new InvalidClaimException(message + " in " + location);
+            throw new InvalidClaimException("");
         }
         return payLoadModel;
     }

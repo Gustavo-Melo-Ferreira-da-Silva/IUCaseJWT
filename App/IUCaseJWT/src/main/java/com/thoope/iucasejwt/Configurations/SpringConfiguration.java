@@ -24,6 +24,8 @@ public class SpringConfiguration {
             .authorizeHttpRequests(authorize -> authorize
                     .requestMatchers(antMatcher(HttpMethod.POST, "/api/generate/token")).permitAll()
                     .requestMatchers(antMatcher(HttpMethod.GET, "/api/validation/token/*")).permitAll()
+                    .requestMatchers(antMatcher("/actuator")).permitAll()
+                    .requestMatchers(antMatcher("/actuator/**")).permitAll()
                     .anyRequest().authenticated());
 
         return http.build();
