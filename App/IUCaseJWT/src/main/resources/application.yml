@@ -6,3 +6,19 @@ security:
     token:
       secret-key: "gQ8HWI50yWn5Uk86K70RTwzVhGiI3bRwZvPEYL5zBZn4Reb9EoMsnC9gNYkL9BfR"
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'health,prometheus'
+    enabled-by-default: false
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    prometheus:
+      enabled: true
+
+logging:
+  level:
+    org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration: ERROR

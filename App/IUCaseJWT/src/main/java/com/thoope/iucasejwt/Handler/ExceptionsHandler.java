@@ -1,53 +1,65 @@
 package com.thoope.iucasejwt.Handler;
 
+import com.thoope.iucasejwt.Controller.TokenGenerationController;
 import com.thoope.iucasejwt.Exceptions.*;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @RestControllerAdvice
 public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 
+    Logger logger = LoggerFactory.getLogger(TokenGenerationController.class);
+
     @ExceptionHandler(NotANumberException.class)
-    public boolean notANumberExceptionHandler(NotANumberException ex, WebRequest request){
-        return false;
+    public ResponseEntity<Boolean> notANumberExceptionHandler(){
+        logger.error("Seed is not a number");
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(InvalidJWTException.class)
-    public boolean invalidJWTException(InvalidJWTException ex, WebRequest request){
-        return false;
+    public ResponseEntity<Boolean> invalidJWTException(){
+        logger.error("Invalid Token");
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(StringHasANumberException.class)
-    public boolean stringHasANumberException(StringHasANumberException ex, WebRequest request){
-        return false;
+    public ResponseEntity<Boolean> stringHasANumberException(){
+        logger.error("Invalid Name: Name contains a number");
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotPrimeException.class)
-    public boolean notPrimeException(NotPrimeException ex, WebRequest request){
-        return false;
+    public ResponseEntity<Boolean> notPrimeException(){
+        logger.error("Invalid Seed: Seed is not a prime number");
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(OffTheListException.class)
-    public boolean offTheListException(OffTheListException ex, WebRequest request){
-        return false;
+    public ResponseEntity<Boolean> offTheListException(){
+        logger.error("Role not allowed");
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(StringTooLargeException.class)
-    public boolean stringTooLargeException(StringTooLargeException ex, WebRequest request){
-        return false;
+    public ResponseEntity<Boolean> stringTooLargeException(){
+        logger.error("Claim name is too large. Max: 265");
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(GenerationTokenException.class)
-    public boolean generationTokenException(GenerationTokenException ex, WebRequest request){
-        return false;
+    public ResponseEntity<Boolean> generationTokenException(){
+        logger.error("Error generating Token. Verify input Payload");
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(InvalidClaimException.class)
-    public boolean invalidClaimException(InvalidClaimException ex, WebRequest request){
-        return false;
+    public ResponseEntity<Boolean> invalidClaimException(){
+        logger.error("Error generating Token. Verify input Payload");
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 }
