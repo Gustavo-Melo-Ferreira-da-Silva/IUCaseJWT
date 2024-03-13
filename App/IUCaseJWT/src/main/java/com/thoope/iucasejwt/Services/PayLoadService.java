@@ -23,7 +23,7 @@ public class PayLoadService {
         ValidateAllowedRoleValues(payLoad.role());
         ValidateSeedPrimeNumber(payLoad.seed());
 
-        logger.trace("Claims Validate Successful.");
+        logger.info("Claims Validate Successful.");
     }
 
     private void ValidateClaimName(String name){

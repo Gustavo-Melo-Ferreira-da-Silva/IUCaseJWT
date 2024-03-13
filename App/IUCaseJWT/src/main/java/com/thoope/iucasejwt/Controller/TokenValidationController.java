@@ -7,6 +7,8 @@ import com.thoope.iucasejwt.Services.TokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,19 +31,19 @@ public class TokenValidationController {
     }
 
     @GetMapping(value = "/{token}")
-    public boolean validateToken(@PathVariable("token") String token) {
+    public ResponseEntity<Boolean> validateToken(@PathVariable("token") String token) {
 
-        logger.trace("Validating Token...");
+        logger.info("Validating Token...");
         DecodedJWT verifier = tokenService.tokenVerifier(token);
 
-        logger.trace("Getting PayLoader...");
+        logger.info("Getting PayLoader...");
         PayLoadModel payLoad =  tokenService.getPayLoad(verifier);
 
-        logger.trace("Validating Claims...");
+        logger.info("Validating Claims...");
         payLoadService.claimsValidation(payLoad);
 
-        logger.trace("Token Validation Successful.");
-        return true;
+        logger.info("Token Validation Successful.");
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }
 

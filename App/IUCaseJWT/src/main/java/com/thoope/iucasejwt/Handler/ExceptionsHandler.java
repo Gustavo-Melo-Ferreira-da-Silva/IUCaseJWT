@@ -4,6 +4,8 @@ import com.thoope.iucasejwt.Controller.TokenGenerationController;
 import com.thoope.iucasejwt.Exceptions.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -14,50 +16,50 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
     Logger logger = LoggerFactory.getLogger(TokenGenerationController.class);
 
     @ExceptionHandler(NotANumberException.class)
-    public boolean notANumberExceptionHandler(){
+    public ResponseEntity<Boolean> notANumberExceptionHandler(){
         logger.error("Seed is not a number");
-        return false;
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(InvalidJWTException.class)
-    public boolean invalidJWTException(){
+    public ResponseEntity<Boolean> invalidJWTException(){
         logger.error("Invalid Token");
-        return false;
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(StringHasANumberException.class)
-    public boolean stringHasANumberException(){
+    public ResponseEntity<Boolean> stringHasANumberException(){
         logger.error("Invalid Name: Name contains a number");
-        return false;
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotPrimeException.class)
-    public boolean notPrimeException(){
+    public ResponseEntity<Boolean> notPrimeException(){
         logger.error("Invalid Seed: Seed is not a prime number");
-        return false;
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(OffTheListException.class)
-    public boolean offTheListException(){
+    public ResponseEntity<Boolean> offTheListException(){
         logger.error("Role not allowed");
-        return false;
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(StringTooLargeException.class)
-    public boolean stringTooLargeException(){
+    public ResponseEntity<Boolean> stringTooLargeException(){
         logger.error("Claim name is too large. Max: 265");
-        return false;
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(GenerationTokenException.class)
-    public boolean generationTokenException(){
+    public ResponseEntity<Boolean> generationTokenException(){
         logger.error("Error generating Token. Verify input Payload");
-        return false;
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(InvalidClaimException.class)
-    public boolean invalidClaimException(){
+    public ResponseEntity<Boolean> invalidClaimException(){
         logger.error("Error generating Token. Verify input Payload");
-        return false;
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 }

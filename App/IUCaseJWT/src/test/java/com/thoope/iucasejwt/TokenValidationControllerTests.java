@@ -11,10 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestPropertySource(locations = "/application.properties")
@@ -39,12 +40,15 @@ public class TokenValidationControllerTests {
 
     @Test
     public void validateTokenOkTest() {
-        //System.out.println(security);
+
         String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
                 ".eyJSb2xlIjoiQWRtaW4iLCJTZWVkIjoiNzg0MSIsIk5hbWUiOiJUb25pbmhvIEFyYXVqbyJ9" +
                 ".q15kl_qD-qKaXH9GbBlo_TVo3YX_IOsooyB52_dJ28o";
 
-        assertTrue(tokenValidationController.validateToken(token));
+        ResponseEntity<Boolean> response = tokenValidationController.validateToken(token);
+
+        assertEquals(Boolean.TRUE, response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
